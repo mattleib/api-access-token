@@ -1,0 +1,70 @@
+// Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license. See full license at the bottom of this file.
+extends layout
+
+block content
+  if accessToken
+    div.container.centered#parent
+      div.row
+        div.col-lg-10.centered#child
+          div.mediumtext Cut and paste the access token below <br/>
+            | using the cut&paste keys of your OS (expires at #{expiration}):
+          div
+            pre
+              code #{accessToken}
+          div.smalltext Valid for: 
+            span.smallitalictext #{consentedScopes}
+          div
+            a.blog-nav-item(href='/') Back to Home
+  else
+    div.row
+      div.col-sm-4.blog-main
+        div.blog-post
+          h3 Request following scopes for Office API access:
+          a.smalltext(ng-hide='show' ng-click='show=!show') Show advanced to enter scopes
+          a.smalltext(ng-show='show' ng-click='show=!show') Hide advanced
+          form(action='/authorize', method='post')
+            div(ng-show='show')
+              em.smalltext Enter additional scopes separated by space:
+              textarea.from-control.scopeinput(name='enteredScopes' value='' rows='4')
+              br
+              a.smalltext(a href='https://msdn.microsoft.com/en-us/office/office365/howto/authentication-v2-scopes-permissions-consent' target='_blank') Lookup valid scopes
+              br
+              br
+            input(type='checkbox' name='Offline access' value='offline_access' checked) 
+            em &nbsp;&nbsp;Offline access **
+            each scope in scopes
+              div
+                input(type='checkbox' name='#{scope.name}' value='#{scope.scope}')
+                em &nbsp;&nbsp;#{scope.name}
+            div
+              span.smallitalictext ** Offline access is required to refresh and copy access tokens
+            hr
+            input(type='submit',value='Authorize API access')
+
+      div.col-sm-6.col-sm-offset-1.blog-main
+        div.blog-post
+          if result
+            h3 Requests results:
+            div
+                pre #{result}
+      
+//
+  MIT License: 
+  Permission is hereby granted, free of charge, to any person obtaining 
+  a copy of this software and associated documentation files (the 
+  ""Software""), to deal in the Software without restriction, including 
+  without limitation the rights to use, copy, modify, merge, publish, 
+  distribute, sublicense, and/or sell copies of the Software, and to 
+  permit persons to whom the Software is furnished to do so, subject to 
+  the following conditions: 
+  The above copyright notice and this permission notice shall be 
+  included in all copies or substantial portions of the Software. 
+  THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND, 
+  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
+  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND 
+  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE 
+  LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
+  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
+  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+

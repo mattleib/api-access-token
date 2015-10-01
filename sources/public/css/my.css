@@ -1,0 +1,37 @@
+.centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#parent {    
+    text-align: center;
+}
+#child {
+    margin: 0 auto;
+    display: inline-block;
+    background: #428bca;
+    color: white;
+}
+
+.mediumtext {
+  padding-top: 10px;
+  font-size: larger;
+}
+
+.smallitalictext {
+  font-size: small;
+  font-style: italic;
+  text-align: left;
+}
+
+.smalltext {
+  font-size: small;
+  text-align: left;
+}
+
+.scopeinput {
+  width: 100%;
+  font-size: small;
+}
