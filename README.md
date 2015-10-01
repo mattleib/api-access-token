@@ -12,6 +12,7 @@ Configure all this in "./my_modules/appid.js" in the project.
 Make sure app runs on the right port as specified in "./bin/www" in the project.
 
 Create SSL keys for your http service using openSSL and specify in "./bin/www".
+Script provides in "./keys/create-cert.sh"
 
 Good luck!
 
