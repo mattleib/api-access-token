@@ -20,7 +20,7 @@ router.post('/', function(req, res, next) {
   }
   
   session.whoami(req).then(function(user) {
-    oidc.authenticate(res, allscopes, user.preferred_username);
+    oidc.authenticate(res, allscopes, user);
   }).fail(function() {
     oidc.authenticate(res, allscopes);
   });

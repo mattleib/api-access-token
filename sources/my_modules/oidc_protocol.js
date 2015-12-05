@@ -5,6 +5,7 @@ var user = require('./users')();
 var uuid = require('./uuid');
 var oidc_config = require('./oidc_configuration');
 var appid = require('./appid');
+var account = require('../my_modules/accounttype');
 var session = require('./session')();
 var KJUR = require("../node_modules/jsrsasign/lib/jsrsasign.js"); 
 
@@ -48,7 +49,7 @@ function findKey(kid) {
 
 module.exports = function() {
 	
-	function authenticate(res, additionalScopes, preferred_username) {
+	function authenticate(res, additionalScopes, user) {
 		console.log('++oidc_protocol.js::authenticate');
 		
 		var stateUuid = uuid.generateUUID();
@@ -64,9 +65,15 @@ module.exports = function() {
 			'nonce': stateUuid  // will be in the id_token
 		};
 		// TODO: Enable once login hint works
-		//if(preferred_username){
-		//	params.login_hint = preferred_username;
-		//}
+		if(user){
+			params.login_hint = user.preferred_username;
+			var accountInfo = account.get(user);
+			if(accountInfo.accountType === 'home') {
+				params.domain_hint = 'consumers';
+			} else {
+				params.domain_hint = 'organizations';
+			}
+		}
 		var authorizeUri = oidc.authorization_endpoint + '?' + qs.stringify(params);
 		
 		//save state of the OIDC request
